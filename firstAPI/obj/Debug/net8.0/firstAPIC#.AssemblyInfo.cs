@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("firstAPIC#")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6dc06393b8eb2a937cd7c2ff9df63ec5cf6dfd44")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aeb9ff3a4f77f6320b36b44c0584f22927c4d4c1")]
 [assembly: System.Reflection.AssemblyProductAttribute("firstAPIC#")]
 [assembly: System.Reflection.AssemblyTitleAttribute("firstAPIC#")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

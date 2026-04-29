@@ -2,16 +2,16 @@ using Microsoft.EntityFrameworkCore;
 
 public class ArticleService
 {
-    private readonly AppDbContext _context;
+    private readonly IArticleRepository _articleRepository;
 
-    public ArticleService(AppDbContext context)
+    public ArticleService(IArticleRepository articleRepository)
     {
-        _context = context;
+        _articleRepository = articleRepository;
     }
 
     public List<ArticleOutputDto> GetAll()
     {
-        return _context.Articles.Include(a=>a.User).Select(a => ArticleMapper.toDto(a)).ToList();
+        return _articleRepository.GetAll().Select(ArticleMapper.toDto).ToList();
     }
 
     public void Add(ArticleInputDto articleInputDto)
@@ -21,13 +21,12 @@ public class ArticleService
             throw new ArgumentNullException(nameof(articleInputDto));
         }
         var article = ArticleMapper.toEntity(articleInputDto);
-        _context.Articles.Add(article);
-        _context.SaveChanges();
+        _articleRepository.Add(article);
     }
 
     public bool Update(int id, ArticleInputDto articleInputDto)
     {
-        var existingArticle = _context.Articles.FirstOrDefault(a=>a.Id == id);
+        var existingArticle = _articleRepository.GetArticleById(id);
         if (existingArticle == null)
         {
             return false;
@@ -36,25 +35,24 @@ public class ArticleService
         existingArticle.Name = article.Name;
         existingArticle.Description = article.Description;
         existingArticle.Price = article.Price;
-        _context.SaveChanges();
+        _articleRepository.Update(existingArticle);
         return true;
     }
 
     public bool Delete(int id)
     {
-        var existingArticle = _context.Articles.FirstOrDefault(a => a.Id == id);
+        var existingArticle = _articleRepository.GetArticleById(id);
         if (existingArticle == null)
         {
             return false;
         }
-        _context.Articles.Remove(existingArticle);
-        _context.SaveChanges();
+        _articleRepository.Delete(existingArticle);
         return true;
     }
 
     public ArticleOutputDto? GetArticleById(int id)
     {
-        var article=_context.Articles.FirstOrDefault(a => a.Id == id);
+        var article = _articleRepository.GetArticleById(id);
         if(article==null)
         {
             return null;

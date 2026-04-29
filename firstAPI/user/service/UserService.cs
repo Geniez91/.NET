@@ -2,28 +2,27 @@ using Microsoft.EntityFrameworkCore;
 
 public class UserService
 {
-    private readonly AppDbContext _context;
+    private readonly IUserRepository _userRepository;
 
-    public UserService(AppDbContext context)
+    public UserService(IUserRepository userRepository)
     {
-        _context = context;
+        _userRepository = userRepository;
     }
 
     public List<UserOutputDto> GetUsers()
     {
-        return _context.Users.Select(u => UserMapper.toDto(u)).ToList();
+        return _userRepository.GetAll().Select(UserMapper.toDto).ToList();
     }
 
     public void Add(UserInputDto userDto)
     {
         var user = UserMapper.toEntity(userDto);
-        _context.Users.Add(user);
-        _context.SaveChanges();
+        _userRepository.Add(user);
     }
 
     public bool Update(int id, UserInputDto userDto)
     {
-        var existingUser = _context.Users.FirstOrDefault(u => u.Id == id);
+        var existingUser = _userRepository.GetUserById(id);
         if (existingUser == null)
         {
             return false;
@@ -31,25 +30,24 @@ public class UserService
         existingUser.UserName = userDto.UserName;
         existingUser.Email = userDto.Email;
         existingUser.Password = userDto.Password;
-        _context.SaveChanges();
+        _userRepository.Update(existingUser);
         return true;
     }
 
     public bool Delete(int id)
     {
-        var user = _context.Users.FirstOrDefault(u => u.Id == id);
+        var user = _userRepository.GetUserById(id);
         if (user == null)
         {
             return false;
         }
-        _context.Users.Remove(user);
-        _context.SaveChanges();
+        _userRepository.Delete(user);
         return true;
     }
 
     public UserOutputDto? GetById(int id)
     {
-        var user = _context.Users.FirstOrDefault(u => u.Id == id);
+        var user = _userRepository.GetUserById(id);
         if(user == null)
         {
             return null;
