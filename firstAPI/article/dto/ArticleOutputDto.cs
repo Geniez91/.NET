@@ -1,0 +1,1 @@
+public record ArticleOutputDto(int Id, string Name, string Description, decimal Price, int UserId);

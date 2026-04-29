@@ -1,0 +1,1 @@
+public record UserInputDto(String Email, String UserName, String Password);

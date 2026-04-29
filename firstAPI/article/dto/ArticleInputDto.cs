@@ -1,0 +1,1 @@
+public record ArticleInputDto(string Name,string Description, decimal Price, int UserId );

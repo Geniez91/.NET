@@ -18,25 +18,24 @@ public class ArticleController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] Article article)
+    public IActionResult Create([FromBody] ArticleInputDto articleInputDto)
     {
-        if(article==null)
+        if(articleInputDto==null)
         {
             return BadRequest();
         }
-
-        _articleService.Add(article);
-        return Created("", article);
+        _articleService.Add(articleInputDto);
+        return Created("", articleInputDto);
     }
 
     [HttpPatch("{id}")]
-    public IActionResult Update(int id,[FromBody] Article article)
+    public IActionResult Update(int id,[FromBody] ArticleInputDto articleInputDto)
     {
-        if(article==null|| article.Id != id)
+        if(articleInputDto==null)
         {
             return BadRequest();
         }
-        var updated = _articleService.Update(id, article);
+        var updated = _articleService.Update(id, articleInputDto);
 
         if (!updated)
         {

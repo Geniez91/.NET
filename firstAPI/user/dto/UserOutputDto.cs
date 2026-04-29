@@ -1,0 +1,1 @@
+public record UserOutputDto(int Id,String Email, String UserName, String Password, List<ArticleOutputDto> Articles);

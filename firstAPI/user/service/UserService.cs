@@ -1,9 +1,59 @@
+using Microsoft.EntityFrameworkCore;
+
 public class UserService
 {
-     private List<User> _users = new()
+    private readonly AppDbContext _context;
+
+    public UserService(AppDbContext context)
     {
-        new User { Id = 1, UserName = "User 1", email = "user1@example.com", password = "password1" },
-        new User { Id = 2, UserName = "User 2", email = "user2@example.com", password = "password2" },
-        new User { Id = 3, UserName = "User 3", email = "user3@example.com", password = "password3" }
-    };
+        _context = context;
+    }
+
+    public List<UserOutputDto> GetUsers()
+    {
+        return _context.Users.Select(u => UserMapper.toDto(u)).ToList();
+    }
+
+    public void Add(UserInputDto userDto)
+    {
+        var user = UserMapper.toEntity(userDto);
+        _context.Users.Add(user);
+        _context.SaveChanges();
+    }
+
+    public bool Update(int id, UserInputDto userDto)
+    {
+        var existingUser = _context.Users.FirstOrDefault(u => u.Id == id);
+        if (existingUser == null)
+        {
+            return false;
+        }
+        existingUser.UserName = userDto.UserName;
+        existingUser.Email = userDto.Email;
+        existingUser.Password = userDto.Password;
+        _context.SaveChanges();
+        return true;
+    }
+
+    public bool Delete(int id)
+    {
+        var user = _context.Users.FirstOrDefault(u => u.Id == id);
+        if (user == null)
+        {
+            return false;
+        }
+        _context.Users.Remove(user);
+        _context.SaveChanges();
+        return true;
+    }
+
+    public UserOutputDto? GetById(int id)
+    {
+        var user = _context.Users.FirstOrDefault(u => u.Id == id);
+        if(user == null)
+        {
+            return null;
+        }
+        return UserMapper.toDto(user);
+    }
 }
