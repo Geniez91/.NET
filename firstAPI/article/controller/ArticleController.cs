@@ -12,9 +12,9 @@ public class ArticleController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery] PaginationDto paginationDto)
     {
-        var articles = await _articleService.GetAll();
+        var articles = await _articleService.GetAll(paginationDto.PageNumber, paginationDto.PageSize);
         return Ok(articles);
     }
 
@@ -48,7 +48,7 @@ public class ArticleController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        
+
         var updated = await _articleService.Update(id, articleInputDto);
 
         if (!updated)

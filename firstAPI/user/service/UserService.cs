@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 public class UserService
@@ -10,9 +11,9 @@ public class UserService
         _userRepository = userRepository;
     }
 
-    public async Task<List<UserOutputDto>> GetUsers()
+    public async Task<List<UserOutputDto>> GetUsers(int page,int pageSize)
     {
-        var users = await _userRepository.GetAll();
+        var users = await _userRepository.GetAll(page, pageSize);
         return users.Select(UserMapper.toDto).ToList();
     }
 
