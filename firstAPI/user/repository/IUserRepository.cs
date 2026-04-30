@@ -1,6 +1,6 @@
 public interface IUserRepository
 {
-    Task<(List<User>, int TotalCount, int TotalPages)> GetAll(int page, int pageSize);
+    Task<(List<User>, int TotalCount, int TotalPages)> GetAll(int page, int pageSize,string? search,string? sortBy);
     Task Add(User user);
     Task Update(User user);
     Task Delete(User user);

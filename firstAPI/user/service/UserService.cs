@@ -11,9 +11,9 @@ public class UserService
         _userRepository = userRepository;
     }
 
-    public async Task<PageResult<UserOutputDto>> GetUsers(int page,int pageSize)
+    public async Task<PageResult<UserOutputDto>> GetUsers(int page,int pageSize,string? search,string? sortBy)
     {
-        var (data,totalCount,totalPages) = await _userRepository.GetAll(page, pageSize);
+        var (data,totalCount,totalPages) = await _userRepository.GetAll(page, pageSize,search,sortBy);
         var listUsers = data.Select(UserMapper.toDto).ToList();
         return new PageResult<UserOutputDto>(listUsers, totalCount, page, pageSize, totalPages);
     }

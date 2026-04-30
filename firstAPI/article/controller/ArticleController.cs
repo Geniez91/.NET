@@ -14,7 +14,7 @@ public class ArticleController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] PaginationDto paginationDto)
     {
-        var articles = await _articleService.GetAll(paginationDto.PageNumber, paginationDto.PageSize);
+        var articles = await _articleService.GetAll(paginationDto.PageNumber, paginationDto.PageSize,paginationDto.Search,paginationDto.SortBy);
         return Ok(articles);
     }
 

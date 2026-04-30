@@ -10,9 +10,9 @@ public class ArticleService
         _articleRepository = articleRepository;
     }
 
-    public async Task<PageResult<ArticleOutputDto>> GetAll(int page, int pageSize)
+    public async Task<PageResult<ArticleOutputDto>> GetAll(int page, int pageSize,string? search,string? sortBy)
     {
-        var (data, totalCount, totalPages) = await _articleRepository.GetAll(page,pageSize);
+        var (data, totalCount, totalPages) = await _articleRepository.GetAll(page,pageSize,search,sortBy);
         var listArticles= data.Select(ArticleMapper.toDto).ToList();
         return new PageResult<ArticleOutputDto>(listArticles, totalCount, page, pageSize, totalPages);
     }

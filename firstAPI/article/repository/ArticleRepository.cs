@@ -21,12 +21,27 @@ public class ArticleRepository : IArticleRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<(List<Article>,int TotalCount,int TotalPages)> GetAll(int page, int pageSize)
+    public async Task<(List<Article>,int TotalCount,int TotalPages)> GetAll(int page, int pageSize,string? search,string? sortBy)
     {
-        var query=_context.Articles;
+        var query=_context.Articles.AsNoTracking();
+
+        //Ici on ajouter un filtre de recherche par nom d'article
+        if(!string.IsNullOrWhiteSpace(search))
+        {
+            query=query.Where(a=>a.Name.Contains(search));
+        }
+
+        query = sortBy?.ToLower() switch
+        {
+            "name" => query.OrderBy(a => a.Name),
+            "price" => query.OrderBy(a => (double) a.Price),
+            _ => query.OrderBy(a => a.Id) // Tri par défaut
+        };
+
+
         var totalCount=await query.CountAsync();
         var totalPages=(int)Math.Ceiling(totalCount/(double)pageSize);
-        var data = await query.Include(a=>a.User).Skip((page - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync();
+        var data = await query.Include(a=>a.User).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
         return (data, totalCount,totalPages);
     }
 

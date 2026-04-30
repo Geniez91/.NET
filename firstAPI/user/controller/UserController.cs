@@ -16,7 +16,7 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllUsers([FromQuery] PaginationDto paginationDto)
     {
-        var users = await _userService.GetUsers(paginationDto.PageNumber, paginationDto.PageSize);
+        var users = await _userService.GetUsers(paginationDto.PageNumber, paginationDto.PageSize,paginationDto.Search,paginationDto.SortBy);
         return Ok(users);
     }
 
