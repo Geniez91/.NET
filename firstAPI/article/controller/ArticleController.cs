@@ -25,6 +25,12 @@ public class ArticleController : ControllerBase
         {
             return BadRequest();
         }
+
+        if(!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         await _articleService.Add(articleInputDto);
         return Created("", articleInputDto);
     }
@@ -36,6 +42,13 @@ public class ArticleController : ControllerBase
         {
             return BadRequest();
         }
+
+        
+        if(!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
         var updated = await _articleService.Update(id, articleInputDto);
 
         if (!updated)

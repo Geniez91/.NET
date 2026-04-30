@@ -27,6 +27,10 @@ public class UserController : ControllerBase
         {
             return BadRequest();
         }
+        if(!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         await _userService.Add(user);
         return Created("", user);
     }
@@ -37,6 +41,10 @@ public class UserController : ControllerBase
         if(user == null)
         {
             return BadRequest();
+        }
+        if(!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
         var updated = await _userService.Update(id, user);
         if (!updated)
