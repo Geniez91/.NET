@@ -25,13 +25,13 @@ public class UserRepository : IUserRepository
     {
         var totalCount = await _context.Users.CountAsync();
         var totalPage = (int) Math.Ceiling(totalCount/(double)pageSize);
-        var data = await _context.Users.Skip((page - 1 ) * pageSize).Take(pageSize).ToListAsync();
+        var data = await _context.Users.Skip((page - 1 ) * pageSize).Take(pageSize).AsNoTracking().ToListAsync();
         return (data, totalCount, totalPage);
     }
 
     public async Task<User?> GetUserById(int id)
     {
-        return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task Update(User user)

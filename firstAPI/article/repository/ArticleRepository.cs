@@ -26,13 +26,13 @@ public class ArticleRepository : IArticleRepository
         var query=_context.Articles;
         var totalCount=await query.CountAsync();
         var totalPages=(int)Math.Ceiling(totalCount/(double)pageSize);
-        var data = await query.Include(a=>a.User).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        var data = await query.Include(a=>a.User).Skip((page - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync();
         return (data, totalCount,totalPages);
     }
 
     public async Task<Article?> GetArticleById(int id)
     {
-      return await _context.Articles.FirstOrDefaultAsync(a => a.Id == id);
+      return await _context.Articles.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
     }
 
     public async Task Update(Article article)
