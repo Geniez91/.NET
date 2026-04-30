@@ -1,0 +1,1 @@
+public record PageResult<T>(List<T> Data, int TotalCount, int PageNumber, int PageSize,int TotalPages);

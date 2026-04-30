@@ -21,11 +21,12 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<User>> GetAll(int page, int pageSize)
+    public async Task<(List<User>, int TotalCount, int TotalPages)> GetAll(int page, int pageSize)
     {
-        return await _context.Users
-        .Skip((page - 1 ) * pageSize)
-        .Take(pageSize).ToListAsync();
+        var totalCount = await _context.Users.CountAsync();
+        var totalPage = (int) Math.Ceiling(totalCount/(double)pageSize);
+        var data = await _context.Users.Skip((page - 1 ) * pageSize).Take(pageSize).ToListAsync();
+        return (data, totalCount, totalPage);
     }
 
     public async Task<User?> GetUserById(int id)

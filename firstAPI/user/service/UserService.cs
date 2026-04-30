@@ -11,10 +11,11 @@ public class UserService
         _userRepository = userRepository;
     }
 
-    public async Task<List<UserOutputDto>> GetUsers(int page,int pageSize)
+    public async Task<PageResult<UserOutputDto>> GetUsers(int page,int pageSize)
     {
-        var users = await _userRepository.GetAll(page, pageSize);
-        return users.Select(UserMapper.toDto).ToList();
+        var (data,totalCount,totalPages) = await _userRepository.GetAll(page, pageSize);
+        var listUsers = data.Select(UserMapper.toDto).ToList();
+        return new PageResult<UserOutputDto>(listUsers, totalCount, page, pageSize, totalPages);
     }
 
     public async Task Add(UserInputDto userDto)

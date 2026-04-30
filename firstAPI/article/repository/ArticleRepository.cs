@@ -21,9 +21,13 @@ public class ArticleRepository : IArticleRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<Article>> GetAll(int page, int pageSize)
+    public async Task<(List<Article>,int TotalCount,int TotalPages)> GetAll(int page, int pageSize)
     {
-        return await _context.Articles.Include(a=>a.User).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        var query=_context.Articles;
+        var totalCount=await query.CountAsync();
+        var totalPages=(int)Math.Ceiling(totalCount/(double)pageSize);
+        var data = await query.Include(a=>a.User).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        return (data, totalCount,totalPages);
     }
 
     public async Task<Article?> GetArticleById(int id)
