@@ -9,31 +9,31 @@ public class ArticleRepository : IArticleRepository
         _context = context;
     }
 
-    public void Add(Article article)
+    public async Task Add(Article article)
     {
         _context.Articles.Add(article);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public void Delete(Article article)
+    public async Task Delete(Article article)
     {
         _context.Articles.Remove(article);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public List<Article> GetAll()
+    public async Task<List<Article>> GetAll()
     {
-        return _context.Articles.Include(a=>a.User).ToList();
+        return await _context.Articles.Include(a=>a.User).ToListAsync();
     }
 
-    public Article? GetArticleById(int id)
+    public async Task<Article?> GetArticleById(int id)
     {
-      return _context.Articles.FirstOrDefault(a => a.Id == id);
+      return await _context.Articles.FirstOrDefaultAsync(a => a.Id == id);
     }
 
-    public void Update(Article article)
+    public async Task Update(Article article)
     {
         _context.Articles.Update(article);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }

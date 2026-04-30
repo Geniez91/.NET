@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 public class ArticleService
@@ -9,24 +10,25 @@ public class ArticleService
         _articleRepository = articleRepository;
     }
 
-    public List<ArticleOutputDto> GetAll()
+    public async Task<List<ArticleOutputDto>> GetAll()
     {
-        return _articleRepository.GetAll().Select(ArticleMapper.toDto).ToList();
+        var articles = await _articleRepository.GetAll();
+        return articles.Select(ArticleMapper.toDto).ToList();
     }
 
-    public void Add(ArticleInputDto articleInputDto)
+    public async Task Add(ArticleInputDto articleInputDto)
     {
         if (articleInputDto == null)
         {
             throw new ArgumentNullException(nameof(articleInputDto));
         }
         var article = ArticleMapper.toEntity(articleInputDto);
-        _articleRepository.Add(article);
+        await _articleRepository.Add(article);
     }
 
-    public bool Update(int id, ArticleInputDto articleInputDto)
+    public async Task<bool> Update(int id, ArticleInputDto articleInputDto)
     {
-        var existingArticle = _articleRepository.GetArticleById(id);
+        var existingArticle = await _articleRepository.GetArticleById(id);
         if (existingArticle == null)
         {
             return false;
@@ -35,24 +37,24 @@ public class ArticleService
         existingArticle.Name = article.Name;
         existingArticle.Description = article.Description;
         existingArticle.Price = article.Price;
-        _articleRepository.Update(existingArticle);
+        await _articleRepository.Update(existingArticle);
         return true;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> Delete(int id)
     {
-        var existingArticle = _articleRepository.GetArticleById(id);
+        var existingArticle = await _articleRepository.GetArticleById(id);
         if (existingArticle == null)
         {
             return false;
         }
-        _articleRepository.Delete(existingArticle);
+        await _articleRepository.Delete(existingArticle);
         return true;
     }
 
-    public ArticleOutputDto? GetArticleById(int id)
+    public async Task<ArticleOutputDto?> GetArticleById(int id)
     {
-        var article = _articleRepository.GetArticleById(id);
+        var article = await _articleRepository.GetArticleById(id);
         if(article==null)
         {
             return null;

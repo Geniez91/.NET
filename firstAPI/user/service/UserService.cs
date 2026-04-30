@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 public class UserService
@@ -9,20 +10,21 @@ public class UserService
         _userRepository = userRepository;
     }
 
-    public List<UserOutputDto> GetUsers()
+    public async Task<List<UserOutputDto>> GetUsers()
     {
-        return _userRepository.GetAll().Select(UserMapper.toDto).ToList();
+        var users = await _userRepository.GetAll();
+        return users.Select(UserMapper.toDto).ToList();
     }
 
-    public void Add(UserInputDto userDto)
+    public async Task Add(UserInputDto userDto)
     {
         var user = UserMapper.toEntity(userDto);
-        _userRepository.Add(user);
+        await _userRepository.Add(user);
     }
 
-    public bool Update(int id, UserInputDto userDto)
+    public async Task<bool> Update(int id, UserInputDto userDto)
     {
-        var existingUser = _userRepository.GetUserById(id);
+        var existingUser = await _userRepository.GetUserById(id);
         if (existingUser == null)
         {
             return false;
@@ -30,24 +32,24 @@ public class UserService
         existingUser.UserName = userDto.UserName;
         existingUser.Email = userDto.Email;
         existingUser.Password = userDto.Password;
-        _userRepository.Update(existingUser);
+        await _userRepository.Update(existingUser);
         return true;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> Delete(int id)
     {
-        var user = _userRepository.GetUserById(id);
+        var user = await _userRepository.GetUserById(id);
         if (user == null)
         {
             return false;
         }
-        _userRepository.Delete(user);
+        await _userRepository.Delete(user);
         return true;
     }
 
-    public UserOutputDto? GetById(int id)
+    public async Task<UserOutputDto?> GetById(int id)
     {
-        var user = _userRepository.GetUserById(id);
+        var user = await _userRepository.GetUserById(id);
         if(user == null)
         {
             return null;

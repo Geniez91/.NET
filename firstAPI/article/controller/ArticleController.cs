@@ -12,30 +12,31 @@ public class ArticleController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
-        return Ok(_articleService.GetAll());
+        var articles = await _articleService.GetAll();
+        return Ok(articles);
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] ArticleInputDto articleInputDto)
+    public async Task<IActionResult> Create([FromBody] ArticleInputDto articleInputDto)
     {
         if(articleInputDto==null)
         {
             return BadRequest();
         }
-        _articleService.Add(articleInputDto);
+        await _articleService.Add(articleInputDto);
         return Created("", articleInputDto);
     }
 
     [HttpPatch("{id}")]
-    public IActionResult Update(int id,[FromBody] ArticleInputDto articleInputDto)
+    public async Task<IActionResult> Update(int id,[FromBody] ArticleInputDto articleInputDto)
     {
         if(articleInputDto==null)
         {
             return BadRequest();
         }
-        var updated = _articleService.Update(id, articleInputDto);
+        var updated = await _articleService.Update(id, articleInputDto);
 
         if (!updated)
         {
@@ -45,9 +46,9 @@ public class ArticleController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var deleted = _articleService.Delete(id);
+        var deleted = await _articleService.Delete(id);
 
         if (!deleted)
         {
@@ -57,9 +58,9 @@ public class ArticleController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        var article = _articleService.GetArticleById(id);
+        var article = await _articleService.GetArticleById(id);
         if(article==null)
         {
             return NotFound();

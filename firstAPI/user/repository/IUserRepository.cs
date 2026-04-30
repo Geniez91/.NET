@@ -1,8 +1,8 @@
 public interface IUserRepository
 {
-    List<User>GetAll();
-    void Add(User user);
-    void Update(User user);
-    void Delete(User user);
-    User? GetUserById(int id);
+    Task<List<User>>GetAll();
+    Task Add(User user);
+    Task Update(User user);
+    Task Delete(User user);
+    Task<User?> GetUserById(int id);
 }

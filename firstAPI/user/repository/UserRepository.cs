@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _context;
@@ -7,31 +9,31 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public void Add(User user)
+    public async Task Add(User user)
     {
         _context.Users.Add(user);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public void Delete(User user)
+    public async Task Delete(User user)
     {
         _context.Users.Remove(user);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public List<User> GetAll()
+    public async Task<List<User>> GetAll()
     {
-        return _context.Users.ToList();
+        return await _context.Users.ToListAsync();
     }
 
-    public User? GetUserById(int id)
+    public async Task<User?> GetUserById(int id)
     {
-        return _context.Users.FirstOrDefault(u => u.Id == id);
+        return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
     }
 
-    public void Update(User user)
+    public async Task Update(User user)
     {
         _context.Users.Update(user);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }

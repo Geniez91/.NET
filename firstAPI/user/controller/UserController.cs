@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,30 +14,31 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllUsers()
+    public async Task<IActionResult> GetAllUsers()
     {
-     return Ok(_userService.GetUsers());
+        var users = await _userService.GetUsers();
+        return Ok(users);
     }
 
     [HttpPost]
-    public IActionResult AddUser([FromBody] UserInputDto user)
+    public async Task<IActionResult> AddUser([FromBody] UserInputDto user)
     {
         if(user == null)
         {
             return BadRequest();
         }
-        _userService.Add(user);
+        await _userService.Add(user);
         return Created("", user);
     }
 
     [HttpPatch("{id}")]
-    public IActionResult UpdateUser(int id, [FromBody] UserInputDto user)
+    public async Task<IActionResult> UpdateUser(int id, [FromBody] UserInputDto user)
     {
         if(user == null)
         {
             return BadRequest();
         }
-        var updated = _userService.Update(id, user);
+        var updated = await _userService.Update(id, user);
         if (!updated)
         {
             return NotFound();
@@ -45,9 +47,9 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteUser(int id)
+    public async Task<IActionResult> DeleteUser(int id)
     {
-        var deleted = _userService.Delete(id);
+        var deleted = await _userService.Delete(id);
         if (!deleted)
         {
             return NotFound();
@@ -56,9 +58,9 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetUserById(int id)
+    public async Task<IActionResult> GetUserById(int id)
     {
-        var user = _userService.GetById(id);
+        var user = await _userService.GetById(id);
         if(user == null)
         {
             return NotFound();

@@ -1,8 +1,8 @@
 public interface IArticleRepository
 {
-    List<Article> GetAll();
-    void Add(Article article);
-    void Update(Article article);
-    void Delete(Article article);
-    Article? GetArticleById(int id);
+    Task<List<Article>> GetAll();
+    Task Add(Article article);
+    Task Update(Article article);
+    Task Delete(Article article);
+    Task<Article?> GetArticleById(int id);
 }
