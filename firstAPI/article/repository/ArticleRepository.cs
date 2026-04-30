@@ -34,7 +34,9 @@ public class ArticleRepository : IArticleRepository
         query = sortBy?.ToLower() switch
         {
             "name" => query.OrderBy(a => a.Name),
+            "name_desc" => query.OrderByDescending(a => a.Name),
             "price" => query.OrderBy(a => (double) a.Price),
+            "price_desc" => query.OrderByDescending(a => (double) a.Price),
             _ => query.OrderBy(a => a.Id) // Tri par défaut
         };
 

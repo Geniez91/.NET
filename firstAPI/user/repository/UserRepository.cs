@@ -34,7 +34,10 @@ public class UserRepository : IUserRepository
         usersQuery = sortBy?.ToLower() switch
         {
             "username" => usersQuery.OrderBy(u => u.UserName),
+            "username_desc" => usersQuery.OrderByDescending(u => u.UserName),
+
             "email" => usersQuery.OrderBy(u => u.Email),
+            "email_desc"=> usersQuery.OrderByDescending(u => u.Email),
             _ => usersQuery.OrderBy(u => u.Id) // Tri par défaut
         };
 
