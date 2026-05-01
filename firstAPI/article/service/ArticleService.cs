@@ -4,16 +4,19 @@ using Microsoft.EntityFrameworkCore;
 public class ArticleService
 {
     private readonly IArticleRepository _articleRepository;
+    private readonly ILogger<ArticleService> _logger;
 
-    public ArticleService(IArticleRepository articleRepository)
+    public ArticleService(IArticleRepository articleRepository,ILogger<ArticleService> logger)
     {
         _articleRepository = articleRepository;
+        _logger = logger;
     }
 
     public async Task<PageResult<ArticleOutputDto>> GetAll(int page, int pageSize,string? search,string? sortBy)
     {
         var (data, totalCount, totalPages) = await _articleRepository.GetAll(page,pageSize,search,sortBy);
         var listArticles= data.Select(ArticleMapper.toDto).ToList();
+        _logger.LogInformation("Retrieved {Count} articles (Page {Page}/{TotalPages})", totalCount, page, totalPages);
         return new PageResult<ArticleOutputDto>(listArticles, totalCount, page, pageSize, totalPages);
     }
 
@@ -30,6 +33,7 @@ public class ArticleService
         }
         var article = ArticleMapper.toEntity(articleInputDto);
         await _articleRepository.Add(article);
+        _logger.LogInformation("Article '{ArticleName}' created successfully.", article.Name);
     }
 
     public async Task<bool> Update(int id, ArticleInputDto articleInputDto)
