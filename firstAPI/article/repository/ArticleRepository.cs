@@ -57,4 +57,9 @@ public class ArticleRepository : IArticleRepository
         _context.Articles.Update(article);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<Article?> GetArticleByName(string name)
+    {
+        return await _context.Articles.AsNoTracking().FirstOrDefaultAsync(a => a.Name == name);
+    }
 }

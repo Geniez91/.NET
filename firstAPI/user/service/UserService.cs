@@ -20,6 +20,11 @@ public class UserService
 
     public async Task Add(UserInputDto userDto)
     {
+        var userAltreadyExists = await _userRepository.GetUserByEmail(userDto.Email);
+        if(userAltreadyExists != null)
+        {
+            throw new ConflictException($"User already exists.");
+        }
         var user = UserMapper.toEntity(userDto);
         await _userRepository.Add(user);
     }
@@ -29,7 +34,7 @@ public class UserService
         var existingUser = await _userRepository.GetUserById(id);
         if (existingUser == null)
         {
-            return false;
+            throw new NotFoundException("User not found.");
         }
         existingUser.UserName = userDto.UserName;
         existingUser.Email = userDto.Email;
@@ -43,7 +48,7 @@ public class UserService
         var user = await _userRepository.GetUserById(id);
         if (user == null)
         {
-            return false;
+            throw new NotFoundException("User not found.");
         }
         await _userRepository.Delete(user);
         return true;
@@ -54,7 +59,7 @@ public class UserService
         var user = await _userRepository.GetUserById(id);
         if(user == null)
         {
-            return null;
+            throw new NotFoundException("User not found.");
         }
         return UserMapper.toDto(user);
     }

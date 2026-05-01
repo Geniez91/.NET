@@ -23,6 +23,11 @@ public class ArticleService
         {
             throw new ArgumentNullException(nameof(articleInputDto));
         }
+        var articleAltreadyExists = await _articleRepository.GetArticleByName(articleInputDto.Name);
+        if(articleAltreadyExists != null)
+        {
+            throw new ConflictException($"Article already exists.");
+        }
         var article = ArticleMapper.toEntity(articleInputDto);
         await _articleRepository.Add(article);
     }
@@ -32,7 +37,7 @@ public class ArticleService
         var existingArticle = await _articleRepository.GetArticleById(id);
         if (existingArticle == null)
         {
-            return false;
+            throw new NotFoundException("Article not found.");
         }
         var article= ArticleMapper.toEntity(articleInputDto);
         existingArticle.Name = article.Name;
@@ -47,7 +52,7 @@ public class ArticleService
         var existingArticle = await _articleRepository.GetArticleById(id);
         if (existingArticle == null)
         {
-            return false;
+            throw new NotFoundException("Article not found.");
         }
         await _articleRepository.Delete(existingArticle);
         return true;
@@ -58,7 +63,7 @@ public class ArticleService
         var article = await _articleRepository.GetArticleById(id);
         if(article==null)
         {
-            return null;
+            throw new NotFoundException("Article not found.");
         }
         return ArticleMapper.toDto(article);
     }

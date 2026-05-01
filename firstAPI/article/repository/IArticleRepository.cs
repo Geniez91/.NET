@@ -5,4 +5,5 @@ public interface IArticleRepository
     Task Update(Article article);
     Task Delete(Article article);
     Task<Article?> GetArticleById(int id);
+    Task<Article?> GetArticleByName(string name);
 }
