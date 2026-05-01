@@ -37,7 +37,12 @@ public class ExceptionMiddleware
             _ => (int) HttpStatusCode.InternalServerError
         };
 
-        var response=new {message = ex.Message};
+        var response = new {
+            message = ex.Message,
+            status = context.Response.StatusCode,
+            timestamp = DateTime.UtcNow,
+            path = context.Request.Path
+        };
         return context.Response.WriteAsJsonAsync(response);
     }
 }

@@ -14,6 +14,7 @@ builder.Services.AddControllers();
 
 
 var app = builder.Build();
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 // Configure the HTTP request pipeline.
