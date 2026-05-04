@@ -1,1 +1,11 @@
-{"Version":1,"Hash":"TQCK3WvzVlG7575SPDzSs906jbacVRmttgbE6DsBJWY=","Source":"firstAPIC#","BasePath":"/","Mode":"Root","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
+{
+  "Version": 1,
+  "Hash": "oMPQ3hOi4HWVQk6nCb1ylyTZ6WKL60rttaYBBsOWzWY=",
+  "Source": "FirstAPI",
+  "BasePath": "_content/FirstAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -2571,9 +2571,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "B:\\.NET\\firstAPI\\firstAPIC#.csproj",
-      "projectName": "firstAPIC#",
-      "projectPath": "B:\\.NET\\firstAPI\\firstAPIC#.csproj",
+      "projectUniqueName": "B:\\.NET\\firstAPI\\FirstAPI.csproj",
+      "projectName": "FirstAPI",
+      "projectPath": "B:\\.NET\\firstAPI\\FirstAPI.csproj",
       "packagesPath": "C:\\Users\\jerem\\.nuget\\packages\\",
       "outputPath": "B:\\.NET\\firstAPI\\obj\\",
       "projectStyle": "PackageReference",
@@ -2599,13 +2599,7 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "10.0.200"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -2647,7 +2641,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.126/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
