@@ -23,11 +23,13 @@ public class ArticleRepository : IArticleRepository
 
     public async Task<(List<Article>,int TotalCount,int TotalPages)> GetAll(int page, int pageSize,string? search,string? sortBy)
     {
+        ///Récupération des articles et en enlevant le suvie des modifications pour améliorer les performances
         var query=_context.Articles.AsNoTracking();
 
         //Ici on ajouter un filtre de recherche par nom d'article
         if(!string.IsNullOrWhiteSpace(search))
         {
+            /// Filtre des article dont le nom contient la chaine de caractère
             query=query.Where(a=>a.Name.Contains(search));
         }
 

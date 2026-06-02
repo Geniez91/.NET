@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "B:\\.NET\\firstAPI.Tests\\FirstAPI.Tests.csproj": {}
+    "B:\\.NET\\FirstAPI.Tests\\FirstAPI.Tests.csproj": {}
   },
   "projects": {
-    "B:\\.NET\\firstAPI.Tests\\FirstAPI.Tests.csproj": {
+    "B:\\.NET\\FirstAPI.Tests\\FirstAPI.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "B:\\.NET\\firstAPI.Tests\\FirstAPI.Tests.csproj",
+        "projectUniqueName": "B:\\.NET\\FirstAPI.Tests\\FirstAPI.Tests.csproj",
         "projectName": "FirstAPI.Tests",
-        "projectPath": "B:\\.NET\\firstAPI.Tests\\FirstAPI.Tests.csproj",
+        "projectPath": "B:\\.NET\\FirstAPI.Tests\\FirstAPI.Tests.csproj",
         "packagesPath": "C:\\Users\\jerem\\.nuget\\packages\\",
-        "outputPath": "B:\\.NET\\firstAPI.Tests\\obj\\",
+        "outputPath": "B:\\.NET\\FirstAPI.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -45,6 +45,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[8.10.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Testing": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.6.0, )"

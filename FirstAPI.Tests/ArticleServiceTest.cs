@@ -32,13 +32,13 @@ public class ArticleServiceTest
     public async Task Add_ShouldAddArticle()
     {
      _repoMock.Setup(r => r.GetArticleByName(It.IsAny<string>()))
-        .ReturnsAsync(null);
+        .ReturnsAsync((Article?)null);
         var dto = new ArticleInputDto("Batman", "desc", 10, 1);
 
         // Act
         await _service.Add(dto);
 
         // Assert
-        _repoMock.Verify(r => r.AddArticle(It.Is<Article>(a => a.Name == dto.Name)), Times.Once);
+        _repoMock.Verify(r => r.Add(It.Is<Article>(a => a.Name == dto.Name)), Times.Once);
     }
 }

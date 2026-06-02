@@ -22,3 +22,6 @@ app.MapControllers();
 app.UseHttpsRedirection();
 
 app.Run();
+public partial class Program
+{
+}
